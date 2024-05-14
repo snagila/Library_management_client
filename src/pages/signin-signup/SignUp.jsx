@@ -15,13 +15,17 @@ const SignUp = () => {
       form.password !== value && setForm("Password doesnot match");
       form.password < 6 && setForm("Must be at least 6 letters long");
 
-      !/!@#$%^&*()/i.test(form.password) &&
+      !/[!@#$%^&*()]/i.test(form.password) &&
         setForm("Must include at lest one !@#$%^&*()");
       !/[a-z]/.test(form.password) &&
         setError("Must have at least one lower case");
       !/[A-Z]/.test(form.password) &&
         setError("Must have at least one upper case");
       !/[0-9]/.test(form.password) && setError("Must have at least one number");
+    }
+
+    if (name === "password" && form.conformPassword) {
+      form.confirmPassword !== value && setError("Password do not match");
     }
 
     setForm({
@@ -86,8 +90,7 @@ const SignUp = () => {
             {inputs.map((input, i) => (
               <CustomInput key={i} {...input} onChange={handleOnChange} />
             ))}
-            {error &
-            (
+            {error && (
               <div className="my-3">
                 <ul>
                   <li className="text-danger fw-bolder">{error}</li>
